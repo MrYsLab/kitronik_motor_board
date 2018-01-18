@@ -36,6 +36,7 @@
 
 from microbit import pin0, pin8, pin12, pin16, display, Image
 
+
 class KMotor:
     """
     This class is used to control 2 motors with the Kitronic
@@ -52,15 +53,17 @@ class KMotor:
 
     def __init__(self):
         """
-        Turn of both motors and clear the display
+        Turn off both motors and clear the display
         """
         self.motor_off(KMotor.MOTOR_1)
         self.motor_off(KMotor.MOTOR_2)
         display.clear()
 
-    def motor_on(self, motor, direction, speed):
+    def motor_on(self, motor, direction, speed=100):
         """
-        Turn motor with the given direction and speed
+        Turn motor with the given direction and speed.
+        If speed is out of range, the NO image will
+        be displayed and no motor will be turned on.
         :param motor: KMotor.MOTOR1 or KMotor.Motor2
         :param direction: KMotor.FORWARD or KMOTOR.REVERSE
         :param speed: 0 - 100
@@ -73,7 +76,7 @@ class KMotor:
             return
 
         # speed needs to be scaled from 0-100 to 0-1023
-        speed = self.scale(speed)
+        speed = self._scale(speed)
 
         # Move Motor Forward
         if direction == KMotor.FORWARD:
@@ -85,7 +88,7 @@ class KMotor:
                 pin16.write_digital(0)
 
         # Move Motor In Reverse
-        elif direction == KMotor.REVERSE:
+        else:
             if motor == KMotor.MOTOR_1:
                 pin12.write_analog(speed)
                 pin8.write_digital(0)
@@ -102,7 +105,7 @@ class KMotor:
         if motor == KMotor.MOTOR_1:
             pin8.write_analog(0)
             pin12.write_analog(0)
-        elif motor == KMotor.MOTOR_2:
+        else:
             pin0.write_analog(0)
             pin16.write_analog(0)
 
@@ -115,15 +118,15 @@ class KMotor:
         if motor == KMotor.MOTOR_1:
             pin8.write_digital(1)
             pin12.write_digital(1)
-        elif motor == KMotor.MOTOR_2:
+        else:
             pin0.write_digital(1)
             pin16.write_digital(1)
 
-    def scale(self, value):
+    def _scale(self, value):
         """
         Scale the speed from 0-100 to 0-1023
         :param value: 0-100
         :return: scaled speed
         """
         new_value = (1023 / 100) * value
-        return(int(new_value))
+        return int(new_value)
