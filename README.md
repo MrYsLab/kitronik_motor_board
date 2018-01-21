@@ -55,7 +55,7 @@ Therefore, adding the k_motor to the top of the application during development i
 debugged and complete, using the persistent file system method is totally appropriate.
 
 To help save value memory space in the micro:bit, a minimized file, 
-[k_motor_minimized.py](https://github.com/MrYsLab/gamerbit/blob/master/k_motor_minimized.py)
+[k_motor_minimized.py](https://github.com/MrYsLab/kitronic_motor_board/blob/master/k_motor_minimized.py)
  has been provided for your convenience. It removes all comments and 
 unnecessary while space from k_motor.py.
 
